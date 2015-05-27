@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Frello</title>
+	<meta charset="UTF-8">
+	<script src="js/jquery.min.js"></script>
+	<!--<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
+	 <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+
+    <script src="js/ui-bootstrap-tpls.min.js"></script>
+
+    <link href="css/xeditable.css" rel="stylesheet">
+	<script src="js/xeditable.min.js"></script>
+
+	<script src="js/all.js"></script>
+    
+</head>
+<body ng-app="frello">
+	<div class="container" ng-controller="Frello2Controller">
+		<div class="row">
+			<div class="col-sm-offset-10 col-sm-2">
+				<alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="container" ng-controller="FrelloController">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Frello</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+				    <label for="taskMessage">Task</label>
+				    <div class="input-group">
+				    	<span class="input-group-addon">todo:</span>
+				      	<input type="text" class="form-control" id="taskMessage" placeholder="Enter task" ng-model="task">
+				      	<span class="input-group-btn">
+				      		<button class = "btn btn-primary" ng-click="add(task)">Add</button>
+				      	</span>
+				    </div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<button class="btn btn-success btn-block" ng-click="toggleCompleted()">{{showOnlyCompleted.text}}</button>
+			</div>
+			<div class="col-md-6">
+				<button class="btn btn-warning btn-block" ng-click="toggleUncompleted()">{{showOnlyUncompleted.text}}</button>
+			</div>
+		</div>
+		<div class="row" ng-repeat="task in tasks track by $index" style="margin-top:5px;" ng-hide="(showOnlyCompleted.show && !task.statusCompleted) || (showOnlyUncompleted.show && task.statusCompleted)">
+            <div class="col-md-2">
+            	<input type="checkbox" ng-model="task.statusCompleted"/><label for="">Completed</label>
+            </div>
+            <div class="col-md-6" ng-class="{'text-success': task.statusCompleted}">
+            	<span editable-text="task.message" e-form="textBtnForm" e-style="width:100%;">
+				    {{ task.message || 'empty' }}
+				</span>
+            </div>
+            <div class="col-md-2">
+            	  <button class="btn btn-default btn-block" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+				    Edit
+				  </button>
+            </div>
+            <div class="col-md-2">
+            	<button class="btn btn-danger btn-block" ng-click="remove($index)">Odstrani</button>
+            </div>
+        </div>
+	</div>
+</body>
+</html>
